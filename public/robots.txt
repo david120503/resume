@@ -1,0 +1,5 @@
+# robots.txt for https://pressplay.one/
+
+User-agent: *
+Disallow: https://api.pressplay.cc/*
+Disallow: https://test.pressplay.cc/*
