@@ -5,7 +5,7 @@ const copydir = require('copy-dir');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const autoprefixer= require('autoprefixer');
+const autoprefixer = require('autoprefixer');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const mode = process.argv[3];
@@ -19,9 +19,9 @@ const ASSETS_PATH = path.resolve(__dirname, 'public/dist/assets/');
 const CSS_DIR = path.resolve(__dirname, 'src/css');
 const CSS_DIR_PUBLIC = path.resolve(__dirname, 'public/dist/css');
 
-const getFileList = function(objectKey, filePath, ignoreFileName = [], matchExt = []) {
+const getFileList = function (objectKey, filePath, ignoreFileName = [], matchExt = []) {
     let storage = {};
-    fs.readdirSync(filePath).forEach(function(fileName) {
+    fs.readdirSync(filePath).forEach(function (fileName) {
         if (fs.statSync(filePath + "/" + fileName).isDirectory()) {
             if (ignoreFileName.indexOf(fileName) == -1) {
                 storage = Object.assign({},
@@ -59,28 +59,28 @@ const getFileList = function(objectKey, filePath, ignoreFileName = [], matchExt 
     return storage;
 };
 
-const deleteFolder = function(path) {
+const deleteFolder = function (path) {
 
-  if (fs.existsSync(path)) {
-    fs.readdirSync(path).forEach(function(file, index){
-      var curPath = path + "/" + file;
-      if (fs.lstatSync(curPath).isDirectory()) { // recurse
-        deleteFolder(curPath);
-      } else { // delete file
-        fs.unlinkSync(curPath);
-      }
-    });
-    fs.rmdirSync(path);
-  }
+    if (fs.existsSync(path)) {
+        fs.readdirSync(path).forEach(function (file, index) {
+            var curPath = path + "/" + file;
+            if (fs.lstatSync(curPath).isDirectory()) { // recurse
+                deleteFolder(curPath);
+            } else { // delete file
+                fs.unlinkSync(curPath);
+            }
+        });
+        fs.rmdirSync(path);
+    }
 };
 
 deleteFolder(DIST_DIR);
 
 /* 在 public 中建立 js css img */
-var public_defaul_folder = [ '', 'js', 'css', 'img'];
-public_defaul_folder.map(function(keyName){
+var public_defaul_folder = ['', 'js', 'css', 'img'];
+public_defaul_folder.map(function (keyName) {
     const dir = path.resolve(__dirname, 'public/dist/' + keyName)
-    if (!fs.existsSync(dir)){
+    if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir);
     }
 });
@@ -94,7 +94,7 @@ if (1) {
     }
     let JS_Entry = {};
 
-    Object.keys(jsFolder).map(function(objectKey, index) {
+    Object.keys(jsFolder).map(function (objectKey, index) {
         let filePath = jsFolder[objectKey];
         JS_Entry = Object.assign(JS_Entry, getFileList(objectKey, filePath, ['component', 'components']));
     });
@@ -111,9 +111,9 @@ if (1) {
     }
 
     let CSS_Entry = {};
-    Object.keys(cssFolder).map(function(objectKey, index) {
+    Object.keys(cssFolder).map(function (objectKey, index) {
         let filePath = cssFolder[objectKey];
-        CSS_Entry = Object.assign(CSS_Entry, getFileList(objectKey, filePath, [],["css", "scss", "less"]));
+        CSS_Entry = Object.assign(CSS_Entry, getFileList(objectKey, filePath, [], ["css", "scss", "less"]));
     });
 
     cssEntry = Object.assign({}, cssEntry, CSS_Entry);
@@ -161,7 +161,7 @@ var jsConfig = {
             "TimelineMax": __dirname + '/node_modules/gsap/src/uncompressed/TimelineMax.js',
             "scrollmagic": __dirname + '/node_modules/scrollmagic/scrollmagic/uncompressed/ScrollMagic.js',
             "animation.gsap": __dirname + '/node_modules/scrollmagic/scrollmagic/uncompressed/plugins/animation.gsap.js',
-            "animation.velocity":  __dirname + '/node_modules/scrollmagic/scrollmagic/uncompressed/plugins/animation.velocity.js',
+            "animation.velocity": __dirname + '/node_modules/scrollmagic/scrollmagic/uncompressed/plugins/animation.velocity.js',
             "debug.addIndicators": __dirname + '/node_modules/scrollmagic/scrollmagic/uncompressed/plugins/debug.addIndicators.js'
             // TweenLite: path.resolve(__dirname, './src/js/vendor/greensock/TweenLite.min.js'),
             // TweenMax: path.resolve(__dirname, './src/js/vendor/greensock/TweenMax.min.js'),
@@ -198,7 +198,10 @@ var jsConfig = {
     module: {
         rules: [{
                 test: /\.(js|jsx)$/,
-                include: APP_DIR,
+                include: [
+                    APP_DIR,
+                    require.resolve('bootstrap-vue')
+                ],
                 exclude: /node_modules/,
                 loader: 'babel-loader'
             },
@@ -209,14 +212,14 @@ var jsConfig = {
             {
                 test: /\.css$/,
                 use: [
-                  'vue-style-loader',
-                  'css-loader'
+                    'vue-style-loader',
+                    'css-loader'
                 ]
             }
         ]
     },
     plugins: [
-    // // make sure to include the plugin!
+        // // make sure to include the plugin!
         new VueLoaderPlugin(),
         new ExtractTextPlugin('../css/[name].css'),
         new webpack.ProvidePlugin({
@@ -253,15 +256,15 @@ if (mode == "development") {
     jsConfig = {
         ...jsConfig,
         ...{
-                performance: {
-                    hints: false // disable warning
-                },
-                devtool: 'source-map',
+            performance: {
+                hints: false // disable warning
+            },
+            devtool: 'source-map',
 
-                watchOptions: {
-                    aggregateTimeout: 300,
-                },
-            }
+            watchOptions: {
+                aggregateTimeout: 300,
+            },
+        }
     };
 }
 
@@ -270,12 +273,16 @@ var cssConfigPlugin = [];
 cssConfigPlugin.push(new ExtractTextPlugin('../css/[name].css'));
 if (mode == "production") {
     cssConfigPlugin.push(
-                new OptimizeCssAssetsPlugin({
-                  cssProcessor: require('cssnano'),
-                  cssProcessorOptions: { discardComments: { removeAll: true } },
-                  canPrint: false,
-                })
-            );
+        new OptimizeCssAssetsPlugin({
+            cssProcessor: require('cssnano'),
+            cssProcessorOptions: {
+                discardComments: {
+                    removeAll: true
+                }
+            },
+            canPrint: false,
+        })
+    );
 }
 
 
@@ -294,42 +301,54 @@ var cssConfig = {
         }
     },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.(css)$/,
                 use: ExtractTextPlugin.extract({
-                    fallback:'style-loader', // 回滚
-                    use: [
-                        { loader: 'css-loader' },
-                        { loader: 'postcss-loader' },
+                    fallback: 'style-loader', // 回滚
+                    use: [{
+                            loader: 'css-loader'
+                        },
+                        {
+                            loader: 'postcss-loader'
+                        },
                     ],
                 })
             },
             {
-                test:/\.less$/,
-                use:ExtractTextPlugin.extract({ //分离less编译后的css文件
-                    fallback:'style-loader',
-                    use:[
-                        {
+                test: /\.less$/,
+                use: ExtractTextPlugin.extract({ //分离less编译后的css文件
+                    fallback: 'style-loader',
+                    use: [{
                             loader: 'css-loader',
-                            options: { url: false }
+                            options: {
+                                url: false
+                            }
                         },
-                        { loader: 'less-loader' },
-                        { loader: 'postcss-loader' },
+                        {
+                            loader: 'less-loader'
+                        },
+                        {
+                            loader: 'postcss-loader'
+                        },
                     ]
                 })
             },
             {
-                test:/\.(sass|scss)$/,
-                use:ExtractTextPlugin.extract({ //分离less编译后的css文件
-                    fallback:'style-loader',
-                    use:[
-                        {
+                test: /\.(sass|scss)$/,
+                use: ExtractTextPlugin.extract({ //分离less编译后的css文件
+                    fallback: 'style-loader',
+                    use: [{
                             loader: 'css-loader',
-                            options: { url: false }
+                            options: {
+                                url: false
+                            }
                         },
-                        { loader: 'sass-loader' },
-                        { loader: 'postcss-loader' },
+                        {
+                            loader: 'sass-loader'
+                        },
+                        {
+                            loader: 'postcss-loader'
+                        },
                     ]
                 })
             },
@@ -342,15 +361,15 @@ if (mode == "development") {
     cssConfig = {
         ...cssConfig,
         ...{
-                performance: {
-                    hints: false // disable warning
-                },
-                devtool: 'source-map',
+            performance: {
+                hints: false // disable warning
+            },
+            devtool: 'source-map',
 
-                watchOptions: {
-                    aggregateTimeout: 300,
-                },
-            }
+            watchOptions: {
+                aggregateTimeout: 300,
+            },
+        }
     };
 }
 
@@ -358,4 +377,3 @@ if (mode == "development") {
 module.exports = [jsConfig, cssConfig];
 
 // module.exports = [jsConfig];
-

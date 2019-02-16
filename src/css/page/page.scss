@@ -14,57 +14,12 @@ body {
     color: $BACKGROUND;
     text-rendering: optimizelegibility;
 
-    #header {
-        position: relative;
-        height: auto;
-        display: block;
-        width: 100%;
-        color: white;
-
-        nav {
-            background-color: $GREY;
-            list-style-type: none;
-            line-height: 50px;
-
-            ul {
-                list-style-type: none;
-                display: flex;
-                width: 100%;
-                margin: 0;
-                ;
-                justify-content: center;
-
-                li {
-                    cursor: pointer;
-                    flex: 1;
-                    transition: .5s;
-                    text-align: center;
-                    padding: 0;
-
-                    a {
-                        color: $WHITE;
-                        text-decoration: none;
-                        padding: 0 20px;
-                    }
-
-                    &:hover {
-                        background-color: rgba(0, 0, 0, 0.2);
-                        color: #00dcf8;
-                    }
-                }
-            }
-
-        }
-
-    }
-
     .shadow {
         box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.15),
             0 3px 10px 0 rgba(0, 0, 0, 0.15);
     }
 
     #profile {
-
         animation-delay: 500ms;
         animation-duration: 1000ms;
         width: 200px;

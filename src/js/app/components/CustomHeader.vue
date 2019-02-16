@@ -1,22 +1,25 @@
 <template>
-    <div id="header" class="shadow">
-        <nav class="navbar navbar-dark">
-            <div class="container animated fadeIn">
-                <ul>
-                    <li>
-                        <i class="fas fa-home"></i>
-                        HOME
-                    </li>
-                    <li>ABOUT</li>
-                    <li>WORKS</li>
-                    <li>EXPERIENCE</li>
-                    <li>SKILL</li>
-                    <li>PORTFOLIOS</li>
-                </ul>
-                <a href="#0" data-activates="nav-mobile" id="nav-btn" class="button-collapse nav-icon">
-                <i class="ion-navicon"></i></a>
-            </div>
-        </nav>
+    <div>
+    <b-navbar toggleable="lg" type="dark" variant="dark" class="shadow">
+        <b-navbar-brand href="#">NavBar</b-navbar-brand>
+
+        <b-navbar-toggle target="nav_collapse" />
+
+        <b-collapse is-nav id="nav_collapse">
+            <b-navbar-nav>
+                <b-nav-item href="#">About</b-nav-item>
+                <b-nav-item href="#">Work</b-nav-item>
+            </b-navbar-nav>
+
+            <!-- Right aligned nav items -->
+            <b-navbar-nav class="ml-auto">
+                <b-nav-item-dropdown text="語言" right>
+                <b-dropdown-item href="#">English</b-dropdown-item>
+                <b-dropdown-item href="#">中文</b-dropdown-item>
+                </b-nav-item-dropdown>
+            </b-navbar-nav>
+        </b-collapse>
+    </b-navbar>
     </div>
 </template>
 
