@@ -1,3 +1,99 @@
+$GREY: #424242;
+$BACKGROUND: #606060;
+$WHITE: #FFF;
+
 body {
-    background: #ececec;
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    display: block;
+    font-family: 'Roboto',
+        sans-serif;
+    font-size: 15px;
+
+    color: $BACKGROUND;
+    text-rendering: optimizelegibility;
+
+    #header {
+        position: relative;
+        height: auto;
+        display: block;
+        width: 100%;
+        color: white;
+
+        nav {
+            background-color: $GREY;
+            list-style-type: none;
+            line-height: 50px;
+
+            ul {
+                list-style-type: none;
+                display: flex;
+                width: 100%;
+                margin: 0;
+                ;
+                justify-content: center;
+
+                li {
+                    cursor: pointer;
+                    flex: 1;
+                    transition: .5s;
+                    text-align: center;
+                    padding: 0;
+
+                    a {
+                        color: $WHITE;
+                        text-decoration: none;
+                        padding: 0 20px;
+                    }
+
+                    &:hover {
+                        background-color: rgba(0, 0, 0, 0.2);
+                        color: #00dcf8;
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    .shadow {
+        box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.15),
+            0 3px 10px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    #profile {
+
+        animation-delay: 500ms;
+        animation-duration: 1000ms;
+        width: 200px;
+        height: 200px;
+        z-index: 1;
+        display: block;
+        border-radius: 50%;
+        background-color: #fff;
+        padding: 5px;
+        box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.2),
+            0 3px 10px 0 rgba(0, 0, 0, 0.2);
+
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+        }
+    }
+
+    .about {
+        margin-top: 75px;
+
+        .left {}
+
+        .right {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+    }
 }
